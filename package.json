@@ -1,6 +1,6 @@
 {
   "name": "github-logs-parser",
-  "version": "1.0.3",
+  "version": "1.0.1",
   "description": "Antlr4 generated github logs parser",
   "main": "dist/index.js",
   "types": "dist/index.d.ts",

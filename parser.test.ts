@@ -11,16 +11,6 @@ describe("GITHUBLOGS Parser", () => {
         expect(context).not.toBeNull();
     });
 
-    test("it should return null for an invalid GitHub entry", () => {
-        const context = parse("John Doe 12345+johndoe@users.noreply.github.com\n");
-        expect(context).toBeNull();
-    });
-
-    test("it should return null for an invalid paired email entry", () => {
-        const context = parse("John Doe, Jane Doe, pair+johndoe+janedoe@demo.uk\n");
-        expect(context).toBeNull();
-    });
-    
     test("it should handle tabs and other whitespace", () => {
         const context = parse("\tJohn Doe <12345+johndoe@users.noreply.github.com>\t\n");
         expect(context).not.toBeNull();

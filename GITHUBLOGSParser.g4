@@ -13,8 +13,9 @@ entry           : noreplyEntry
 noreplyEntry    : fullname LESS NUMBER PLUS githubHandle AT NOREPLY_DOMAIN GREATER
                 ;
 
-domainEntry     : githubHandle LESS emailAddress GREATER
+domainEntry     : fullname LESS EMAIL_LOCAL_PART AT DOMAIN GREATER
                 ;
+
 pairedEmailEntry: nameList LESS emailAddress GREATER ;
 
 nameList        : fullname (COMMA fullname)* AND fullname ; 

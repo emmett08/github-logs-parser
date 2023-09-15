@@ -33,16 +33,19 @@ export class GITHUBLOGSParser extends Parser {
 	public static readonly DOMAIN = 3;
 	public static readonly HANDLE = 4;
 	public static readonly NUMBER = 5;
-	public static readonly COMMA = 6;
-	public static readonly AND = 7;
-	public static readonly AT = 8;
-	public static readonly PLUS = 9;
-	public static readonly LESS = 10;
-	public static readonly GREATER = 11;
-	public static readonly DOT = 12;
-	public static readonly NOREPLY_DOMAIN = 13;
-	public static readonly NEWLINE = 14;
-	public static readonly WS = 15;
+	public static readonly NAME_PART = 6;
+	public static readonly COMMA = 7;
+	public static readonly AND = 8;
+	public static readonly AT = 9;
+	public static readonly PLUS = 10;
+	public static readonly LESS = 11;
+	public static readonly GREATER = 12;
+	public static readonly DOT = 13;
+	public static readonly LPAREN = 14;
+	public static readonly RPAREN = 15;
+	public static readonly NOREPLY_DOMAIN = 16;
+	public static readonly NEWLINE = 17;
+	public static readonly WS = 18;
 	public static readonly RULE_file = 0;
 	public static readonly RULE_entry = 1;
 	public static readonly RULE_noreplyEntry = 2;
@@ -60,13 +63,13 @@ export class GITHUBLOGSParser extends Parser {
 	];
 
 	private static readonly _LITERAL_NAMES: Array<string | undefined> = [
-		undefined, undefined, undefined, undefined, undefined, undefined, "','", 
-		"'and'", "'@'", "'+'", "'<'", "'>'", "'.'", "'users.noreply.github.com'",
+		undefined, undefined, undefined, undefined, undefined, undefined, undefined, 
+		"','", "'and'", "'@'", "'+'", "'<'", "'>'", "'.'", "'('", "')'", "'users.noreply.github.com'",
 	];
 	private static readonly _SYMBOLIC_NAMES: Array<string | undefined> = [
 		undefined, "EMAIL_LOCAL_PART", "FULLNAME", "DOMAIN", "HANDLE", "NUMBER", 
-		"COMMA", "AND", "AT", "PLUS", "LESS", "GREATER", "DOT", "NOREPLY_DOMAIN", 
-		"NEWLINE", "WS",
+		"NAME_PART", "COMMA", "AND", "AT", "PLUS", "LESS", "GREATER", "DOT", "LPAREN", 
+		"RPAREN", "NOREPLY_DOMAIN", "NEWLINE", "WS",
 	];
 	public static readonly VOCABULARY: Vocabulary = new VocabularyImpl(GITHUBLOGSParser._LITERAL_NAMES, GITHUBLOGSParser._SYMBOLIC_NAMES, []);
 
@@ -125,7 +128,7 @@ export class GITHUBLOGSParser extends Parser {
 				this.state = 26;
 				this._errHandler.sync(this);
 				_la = this._input.LA(1);
-			} while ((((_la) & ~0x1F) === 0 && ((1 << _la) & ((1 << GITHUBLOGSParser.FULLNAME) | (1 << GITHUBLOGSParser.HANDLE) | (1 << GITHUBLOGSParser.NEWLINE))) !== 0));
+			} while (_la === GITHUBLOGSParser.FULLNAME || _la === GITHUBLOGSParser.NEWLINE);
 			this.state = 28;
 			this.match(GITHUBLOGSParser.EOF);
 			}
@@ -246,12 +249,16 @@ export class GITHUBLOGSParser extends Parser {
 			this.enterOuterAlt(_localctx, 1);
 			{
 			this.state = 45;
-			this.githubHandle();
+			this.fullname();
 			this.state = 46;
 			this.match(GITHUBLOGSParser.LESS);
 			this.state = 47;
-			this.emailAddress();
+			this.match(GITHUBLOGSParser.EMAIL_LOCAL_PART);
 			this.state = 48;
+			this.match(GITHUBLOGSParser.AT);
+			this.state = 49;
+			this.match(GITHUBLOGSParser.DOMAIN);
+			this.state = 50;
 			this.match(GITHUBLOGSParser.GREATER);
 			}
 		}
@@ -276,13 +283,13 @@ export class GITHUBLOGSParser extends Parser {
 		try {
 			this.enterOuterAlt(_localctx, 1);
 			{
-			this.state = 50;
-			this.nameList();
-			this.state = 51;
-			this.match(GITHUBLOGSParser.LESS);
 			this.state = 52;
-			this.emailAddress();
+			this.nameList();
 			this.state = 53;
+			this.match(GITHUBLOGSParser.LESS);
+			this.state = 54;
+			this.emailAddress();
+			this.state = 55;
 			this.match(GITHUBLOGSParser.GREATER);
 			}
 		}
@@ -308,27 +315,27 @@ export class GITHUBLOGSParser extends Parser {
 		try {
 			this.enterOuterAlt(_localctx, 1);
 			{
-			this.state = 55;
+			this.state = 57;
 			this.fullname();
-			this.state = 60;
+			this.state = 62;
 			this._errHandler.sync(this);
 			_la = this._input.LA(1);
 			while (_la === GITHUBLOGSParser.COMMA) {
 				{
 				{
-				this.state = 56;
+				this.state = 58;
 				this.match(GITHUBLOGSParser.COMMA);
-				this.state = 57;
+				this.state = 59;
 				this.fullname();
 				}
 				}
-				this.state = 62;
+				this.state = 64;
 				this._errHandler.sync(this);
 				_la = this._input.LA(1);
 			}
-			this.state = 63;
+			this.state = 65;
 			this.match(GITHUBLOGSParser.AND);
-			this.state = 64;
+			this.state = 66;
 			this.fullname();
 			}
 		}
@@ -353,11 +360,11 @@ export class GITHUBLOGSParser extends Parser {
 		try {
 			this.enterOuterAlt(_localctx, 1);
 			{
-			this.state = 66;
-			this.match(GITHUBLOGSParser.EMAIL_LOCAL_PART);
-			this.state = 67;
-			this.match(GITHUBLOGSParser.AT);
 			this.state = 68;
+			this.match(GITHUBLOGSParser.EMAIL_LOCAL_PART);
+			this.state = 69;
+			this.match(GITHUBLOGSParser.AT);
+			this.state = 70;
 			this.match(GITHUBLOGSParser.DOMAIN);
 			}
 		}
@@ -382,7 +389,7 @@ export class GITHUBLOGSParser extends Parser {
 		try {
 			this.enterOuterAlt(_localctx, 1);
 			{
-			this.state = 70;
+			this.state = 72;
 			this.match(GITHUBLOGSParser.FULLNAME);
 			}
 		}
@@ -407,7 +414,7 @@ export class GITHUBLOGSParser extends Parser {
 		try {
 			this.enterOuterAlt(_localctx, 1);
 			{
-			this.state = 72;
+			this.state = 74;
 			this.match(GITHUBLOGSParser.HANDLE);
 			}
 		}
@@ -432,7 +439,7 @@ export class GITHUBLOGSParser extends Parser {
 		try {
 			this.enterOuterAlt(_localctx, 1);
 			{
-			this.state = 74;
+			this.state = 76;
 			this.match(GITHUBLOGSParser.NEWLINE);
 			}
 		}
@@ -452,36 +459,37 @@ export class GITHUBLOGSParser extends Parser {
 	}
 
 	public static readonly _serializedATN: string =
-		"\x03\uC91D\uCABA\u058D\uAFBA\u4F53\u0607\uEA8B\uC241\x03\x11O\x04\x02" +
+		"\x03\uC91D\uCABA\u058D\uAFBA\u4F53\u0607\uEA8B\uC241\x03\x14Q\x04\x02" +
 		"\t\x02\x04\x03\t\x03\x04\x04\t\x04\x04\x05\t\x05\x04\x06\t\x06\x04\x07" +
 		"\t\x07\x04\b\t\b\x04\t\t\t\x04\n\t\n\x04\v\t\v\x03\x02\x03\x02\x05\x02" +
 		"\x19\n\x02\x06\x02\x1B\n\x02\r\x02\x0E\x02\x1C\x03\x02\x03\x02\x03\x03" +
 		"\x03\x03\x03\x03\x03\x03\x05\x03%\n\x03\x03\x04\x03\x04\x03\x04\x03\x04" +
 		"\x03\x04\x03\x04\x03\x04\x03\x04\x03\x04\x03\x05\x03\x05\x03\x05\x03\x05" +
-		"\x03\x05\x03\x06\x03\x06\x03\x06\x03\x06\x03\x06\x03\x07\x03\x07\x03\x07" +
-		"\x07\x07=\n\x07\f\x07\x0E\x07@\v\x07\x03\x07\x03\x07\x03\x07\x03\b\x03" +
-		"\b\x03\b\x03\b\x03\t\x03\t\x03\n\x03\n\x03\v\x03\v\x03\v\x02\x02\x02\f" +
-		"\x02\x02\x04\x02\x06\x02\b\x02\n\x02\f\x02\x0E\x02\x10\x02\x12\x02\x14" +
-		"\x02\x02\x02\x02J\x02\x1A\x03\x02\x02\x02\x04$\x03\x02\x02\x02\x06&\x03" +
-		"\x02\x02\x02\b/\x03\x02\x02\x02\n4\x03\x02\x02\x02\f9\x03\x02\x02\x02" +
-		"\x0ED\x03\x02\x02\x02\x10H\x03\x02\x02\x02\x12J\x03\x02\x02\x02\x14L\x03" +
-		"\x02\x02\x02\x16\x18\x05\x04\x03\x02\x17\x19\x07\x10\x02\x02\x18\x17\x03" +
-		"\x02\x02\x02\x18\x19\x03\x02\x02\x02\x19\x1B\x03\x02\x02\x02\x1A\x16\x03" +
-		"\x02\x02\x02\x1B\x1C\x03\x02\x02\x02\x1C\x1A\x03\x02\x02\x02\x1C\x1D\x03" +
-		"\x02\x02\x02\x1D\x1E\x03\x02\x02\x02\x1E\x1F\x07\x02\x02\x03\x1F\x03\x03" +
-		"\x02\x02\x02 %\x05\x06\x04\x02!%\x05\b\x05\x02\"%\x05\n\x06\x02#%\x05" +
-		"\x14\v\x02$ \x03\x02\x02\x02$!\x03\x02\x02\x02$\"\x03\x02\x02\x02$#\x03" +
-		"\x02\x02\x02%\x05\x03\x02\x02\x02&\'\x05\x10\t\x02\'(\x07\f\x02\x02()" +
-		"\x07\x07\x02\x02)*\x07\v\x02\x02*+\x05\x12\n\x02+,\x07\n\x02\x02,-\x07" +
-		"\x0F\x02\x02-.\x07\r\x02\x02.\x07\x03\x02\x02\x02/0\x05\x12\n\x0201\x07" +
-		"\f\x02\x0212\x05\x0E\b\x0223\x07\r\x02\x023\t\x03\x02\x02\x0245\x05\f" +
-		"\x07\x0256\x07\f\x02\x0267\x05\x0E\b\x0278\x07\r\x02\x028\v\x03\x02\x02" +
-		"\x029>\x05\x10\t\x02:;\x07\b\x02\x02;=\x05\x10\t\x02<:\x03\x02\x02\x02" +
-		"=@\x03\x02\x02\x02><\x03\x02\x02\x02>?\x03\x02\x02\x02?A\x03\x02\x02\x02" +
-		"@>\x03\x02\x02\x02AB\x07\t\x02\x02BC\x05\x10\t\x02C\r\x03\x02\x02\x02" +
-		"DE\x07\x03\x02\x02EF\x07\n\x02\x02FG\x07\x05\x02\x02G\x0F\x03\x02\x02" +
-		"\x02HI\x07\x04\x02\x02I\x11\x03\x02\x02\x02JK\x07\x06\x02\x02K\x13\x03" +
-		"\x02\x02\x02LM\x07\x10\x02\x02M\x15\x03\x02\x02\x02\x06\x18\x1C$>";
+		"\x03\x05\x03\x05\x03\x05\x03\x06\x03\x06\x03\x06\x03\x06\x03\x06\x03\x07" +
+		"\x03\x07\x03\x07\x07\x07?\n\x07\f\x07\x0E\x07B\v\x07\x03\x07\x03\x07\x03" +
+		"\x07\x03\b\x03\b\x03\b\x03\b\x03\t\x03\t\x03\n\x03\n\x03\v\x03\v\x03\v" +
+		"\x02\x02\x02\f\x02\x02\x04\x02\x06\x02\b\x02\n\x02\f\x02\x0E\x02\x10\x02" +
+		"\x12\x02\x14\x02\x02\x02\x02L\x02\x1A\x03\x02\x02\x02\x04$\x03\x02\x02" +
+		"\x02\x06&\x03\x02\x02\x02\b/\x03\x02\x02\x02\n6\x03\x02\x02\x02\f;\x03" +
+		"\x02\x02\x02\x0EF\x03\x02\x02\x02\x10J\x03\x02\x02\x02\x12L\x03\x02\x02" +
+		"\x02\x14N\x03\x02\x02\x02\x16\x18\x05\x04\x03\x02\x17\x19\x07\x13\x02" +
+		"\x02\x18\x17\x03\x02\x02\x02\x18\x19\x03\x02\x02\x02\x19\x1B\x03\x02\x02" +
+		"\x02\x1A\x16\x03\x02\x02\x02\x1B\x1C\x03\x02\x02\x02\x1C\x1A\x03\x02\x02" +
+		"\x02\x1C\x1D\x03\x02\x02\x02\x1D\x1E\x03\x02\x02\x02\x1E\x1F\x07\x02\x02" +
+		"\x03\x1F\x03\x03\x02\x02\x02 %\x05\x06\x04\x02!%\x05\b\x05\x02\"%\x05" +
+		"\n\x06\x02#%\x05\x14\v\x02$ \x03\x02\x02\x02$!\x03\x02\x02\x02$\"\x03" +
+		"\x02\x02\x02$#\x03\x02\x02\x02%\x05\x03\x02\x02\x02&\'\x05\x10\t\x02\'" +
+		"(\x07\r\x02\x02()\x07\x07\x02\x02)*\x07\f\x02\x02*+\x05\x12\n\x02+,\x07" +
+		"\v\x02\x02,-\x07\x12\x02\x02-.\x07\x0E\x02\x02.\x07\x03\x02\x02\x02/0" +
+		"\x05\x10\t\x0201\x07\r\x02\x0212\x07\x03\x02\x0223\x07\v\x02\x0234\x07" +
+		"\x05\x02\x0245\x07\x0E\x02\x025\t\x03\x02\x02\x0267\x05\f\x07\x0278\x07" +
+		"\r\x02\x0289\x05\x0E\b\x029:\x07\x0E\x02\x02:\v\x03\x02\x02\x02;@\x05" +
+		"\x10\t\x02<=\x07\t\x02\x02=?\x05\x10\t\x02><\x03\x02\x02\x02?B\x03\x02" +
+		"\x02\x02@>\x03\x02\x02\x02@A\x03\x02\x02\x02AC\x03\x02\x02\x02B@\x03\x02" +
+		"\x02\x02CD\x07\n\x02\x02DE\x05\x10\t\x02E\r\x03\x02\x02\x02FG\x07\x03" +
+		"\x02\x02GH\x07\v\x02\x02HI\x07\x05\x02\x02I\x0F\x03\x02\x02\x02JK\x07" +
+		"\x04\x02\x02K\x11\x03\x02\x02\x02LM\x07\x06\x02\x02M\x13\x03\x02\x02\x02" +
+		"NO\x07\x13\x02\x02O\x15\x03\x02\x02\x02\x06\x18\x1C$@";
 	public static __ATN: ATN;
 	public static get _ATN(): ATN {
 		if (!GITHUBLOGSParser.__ATN) {
@@ -624,13 +632,13 @@ export class NoreplyEntryContext extends ParserRuleContext {
 
 
 export class DomainEntryContext extends ParserRuleContext {
-	public githubHandle(): GithubHandleContext {
-		return this.getRuleContext(0, GithubHandleContext);
+	public fullname(): FullnameContext {
+		return this.getRuleContext(0, FullnameContext);
 	}
 	public LESS(): TerminalNode { return this.getToken(GITHUBLOGSParser.LESS, 0); }
-	public emailAddress(): EmailAddressContext {
-		return this.getRuleContext(0, EmailAddressContext);
-	}
+	public EMAIL_LOCAL_PART(): TerminalNode { return this.getToken(GITHUBLOGSParser.EMAIL_LOCAL_PART, 0); }
+	public AT(): TerminalNode { return this.getToken(GITHUBLOGSParser.AT, 0); }
+	public DOMAIN(): TerminalNode { return this.getToken(GITHUBLOGSParser.DOMAIN, 0); }
 	public GREATER(): TerminalNode { return this.getToken(GITHUBLOGSParser.GREATER, 0); }
 	constructor(parent: ParserRuleContext | undefined, invokingState: number) {
 		super(parent, invokingState);
