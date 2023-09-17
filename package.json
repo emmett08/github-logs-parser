@@ -1,13 +1,13 @@
 {
   "name": "github-logs-parser",
-  "version": "1.0.1",
+  "version": "1.0.5",
   "description": "Antlr4 generated github logs parser",
   "main": "dist/index.js",
   "types": "dist/index.d.ts",
   "scripts": {
-    "test": "npx jest",
+    "test": "npm run gl:antlr4ts && npx jest",
     "gl:antlr4ts": "antlr4ts -o githublogs -visitor GITHUBLOGSLexer.g4 GITHUBLOGSParser.g4",
-    "gl:build": "tsc",
+    "gl:build": "npx tsc",
     "gl:declarations": "npx tsc --declaration"
   },
   "repository": {

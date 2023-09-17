@@ -28,48 +28,25 @@ import { GITHUBLOGSParserVisitor } from "./GITHUBLOGSParserVisitor";
 
 
 export class GITHUBLOGSParser extends Parser {
-	public static readonly EMAIL_LOCAL_PART = 1;
-	public static readonly FULLNAME = 2;
-	public static readonly DOMAIN = 3;
-	public static readonly HANDLE = 4;
-	public static readonly NUMBER = 5;
-	public static readonly NAME_PART = 6;
-	public static readonly COMMA = 7;
-	public static readonly AND = 8;
-	public static readonly AT = 9;
-	public static readonly PLUS = 10;
-	public static readonly LESS = 11;
-	public static readonly GREATER = 12;
-	public static readonly DOT = 13;
-	public static readonly LPAREN = 14;
-	public static readonly RPAREN = 15;
-	public static readonly NOREPLY_DOMAIN = 16;
-	public static readonly NEWLINE = 17;
-	public static readonly WS = 18;
+	public static readonly AUTHOR_NAME = 1;
+	public static readonly EMAIL_START = 2;
+	public static readonly NEWLINE = 3;
+	public static readonly EMAIL_END = 4;
+	public static readonly EMAIL = 5;
+	public static readonly WS = 6;
 	public static readonly RULE_file = 0;
 	public static readonly RULE_entry = 1;
-	public static readonly RULE_noreplyEntry = 2;
-	public static readonly RULE_domainEntry = 3;
-	public static readonly RULE_pairedEmailEntry = 4;
-	public static readonly RULE_nameList = 5;
-	public static readonly RULE_emailAddress = 6;
-	public static readonly RULE_fullname = 7;
-	public static readonly RULE_githubHandle = 8;
-	public static readonly RULE_blankLine = 9;
 	// tslint:disable:no-trailing-whitespace
 	public static readonly ruleNames: string[] = [
-		"file", "entry", "noreplyEntry", "domainEntry", "pairedEmailEntry", "nameList", 
-		"emailAddress", "fullname", "githubHandle", "blankLine",
+		"file", "entry",
 	];
 
 	private static readonly _LITERAL_NAMES: Array<string | undefined> = [
-		undefined, undefined, undefined, undefined, undefined, undefined, undefined, 
-		"','", "'and'", "'@'", "'+'", "'<'", "'>'", "'.'", "'('", "')'", "'users.noreply.github.com'",
+		undefined, undefined, "'<'", undefined, "'>'",
 	];
 	private static readonly _SYMBOLIC_NAMES: Array<string | undefined> = [
-		undefined, "EMAIL_LOCAL_PART", "FULLNAME", "DOMAIN", "HANDLE", "NUMBER", 
-		"NAME_PART", "COMMA", "AND", "AT", "PLUS", "LESS", "GREATER", "DOT", "LPAREN", 
-		"RPAREN", "NOREPLY_DOMAIN", "NEWLINE", "WS",
+		undefined, "AUTHOR_NAME", "EMAIL_START", "NEWLINE", "EMAIL_END", "EMAIL", 
+		"WS",
 	];
 	public static readonly VOCABULARY: Vocabulary = new VocabularyImpl(GITHUBLOGSParser._LITERAL_NAMES, GITHUBLOGSParser._SYMBOLIC_NAMES, []);
 
@@ -105,31 +82,21 @@ export class GITHUBLOGSParser extends Parser {
 		try {
 			this.enterOuterAlt(_localctx, 1);
 			{
-			this.state = 24;
+			this.state = 5;
 			this._errHandler.sync(this);
 			_la = this._input.LA(1);
 			do {
 				{
 				{
-				this.state = 20;
+				this.state = 4;
 				this.entry();
-				this.state = 22;
-				this._errHandler.sync(this);
-				switch ( this.interpreter.adaptivePredict(this._input, 0, this._ctx) ) {
-				case 1:
-					{
-					this.state = 21;
-					this.match(GITHUBLOGSParser.NEWLINE);
-					}
-					break;
 				}
 				}
-				}
-				this.state = 26;
+				this.state = 7;
 				this._errHandler.sync(this);
 				_la = this._input.LA(1);
-			} while (_la === GITHUBLOGSParser.FULLNAME || _la === GITHUBLOGSParser.NEWLINE);
-			this.state = 28;
+			} while (_la === GITHUBLOGSParser.AUTHOR_NAME);
+			this.state = 9;
 			this.match(GITHUBLOGSParser.EOF);
 			}
 		}
@@ -152,295 +119,16 @@ export class GITHUBLOGSParser extends Parser {
 		let _localctx: EntryContext = new EntryContext(this._ctx, this.state);
 		this.enterRule(_localctx, 2, GITHUBLOGSParser.RULE_entry);
 		try {
-			this.state = 34;
-			this._errHandler.sync(this);
-			switch ( this.interpreter.adaptivePredict(this._input, 2, this._ctx) ) {
-			case 1:
-				this.enterOuterAlt(_localctx, 1);
-				{
-				this.state = 30;
-				this.noreplyEntry();
-				}
-				break;
-
-			case 2:
-				this.enterOuterAlt(_localctx, 2);
-				{
-				this.state = 31;
-				this.domainEntry();
-				}
-				break;
-
-			case 3:
-				this.enterOuterAlt(_localctx, 3);
-				{
-				this.state = 32;
-				this.pairedEmailEntry();
-				}
-				break;
-
-			case 4:
-				this.enterOuterAlt(_localctx, 4);
-				{
-				this.state = 33;
-				this.blankLine();
-				}
-				break;
-			}
-		}
-		catch (re) {
-			if (re instanceof RecognitionException) {
-				_localctx.exception = re;
-				this._errHandler.reportError(this, re);
-				this._errHandler.recover(this, re);
-			} else {
-				throw re;
-			}
-		}
-		finally {
-			this.exitRule();
-		}
-		return _localctx;
-	}
-	// @RuleVersion(0)
-	public noreplyEntry(): NoreplyEntryContext {
-		let _localctx: NoreplyEntryContext = new NoreplyEntryContext(this._ctx, this.state);
-		this.enterRule(_localctx, 4, GITHUBLOGSParser.RULE_noreplyEntry);
-		try {
 			this.enterOuterAlt(_localctx, 1);
 			{
-			this.state = 36;
-			this.fullname();
-			this.state = 37;
-			this.match(GITHUBLOGSParser.LESS);
-			this.state = 38;
-			this.match(GITHUBLOGSParser.NUMBER);
-			this.state = 39;
-			this.match(GITHUBLOGSParser.PLUS);
-			this.state = 40;
-			this.githubHandle();
-			this.state = 41;
-			this.match(GITHUBLOGSParser.AT);
-			this.state = 42;
-			this.match(GITHUBLOGSParser.NOREPLY_DOMAIN);
-			this.state = 43;
-			this.match(GITHUBLOGSParser.GREATER);
-			}
-		}
-		catch (re) {
-			if (re instanceof RecognitionException) {
-				_localctx.exception = re;
-				this._errHandler.reportError(this, re);
-				this._errHandler.recover(this, re);
-			} else {
-				throw re;
-			}
-		}
-		finally {
-			this.exitRule();
-		}
-		return _localctx;
-	}
-	// @RuleVersion(0)
-	public domainEntry(): DomainEntryContext {
-		let _localctx: DomainEntryContext = new DomainEntryContext(this._ctx, this.state);
-		this.enterRule(_localctx, 6, GITHUBLOGSParser.RULE_domainEntry);
-		try {
-			this.enterOuterAlt(_localctx, 1);
-			{
-			this.state = 45;
-			this.fullname();
-			this.state = 46;
-			this.match(GITHUBLOGSParser.LESS);
-			this.state = 47;
-			this.match(GITHUBLOGSParser.EMAIL_LOCAL_PART);
-			this.state = 48;
-			this.match(GITHUBLOGSParser.AT);
-			this.state = 49;
-			this.match(GITHUBLOGSParser.DOMAIN);
-			this.state = 50;
-			this.match(GITHUBLOGSParser.GREATER);
-			}
-		}
-		catch (re) {
-			if (re instanceof RecognitionException) {
-				_localctx.exception = re;
-				this._errHandler.reportError(this, re);
-				this._errHandler.recover(this, re);
-			} else {
-				throw re;
-			}
-		}
-		finally {
-			this.exitRule();
-		}
-		return _localctx;
-	}
-	// @RuleVersion(0)
-	public pairedEmailEntry(): PairedEmailEntryContext {
-		let _localctx: PairedEmailEntryContext = new PairedEmailEntryContext(this._ctx, this.state);
-		this.enterRule(_localctx, 8, GITHUBLOGSParser.RULE_pairedEmailEntry);
-		try {
-			this.enterOuterAlt(_localctx, 1);
-			{
-			this.state = 52;
-			this.nameList();
-			this.state = 53;
-			this.match(GITHUBLOGSParser.LESS);
-			this.state = 54;
-			this.emailAddress();
-			this.state = 55;
-			this.match(GITHUBLOGSParser.GREATER);
-			}
-		}
-		catch (re) {
-			if (re instanceof RecognitionException) {
-				_localctx.exception = re;
-				this._errHandler.reportError(this, re);
-				this._errHandler.recover(this, re);
-			} else {
-				throw re;
-			}
-		}
-		finally {
-			this.exitRule();
-		}
-		return _localctx;
-	}
-	// @RuleVersion(0)
-	public nameList(): NameListContext {
-		let _localctx: NameListContext = new NameListContext(this._ctx, this.state);
-		this.enterRule(_localctx, 10, GITHUBLOGSParser.RULE_nameList);
-		let _la: number;
-		try {
-			this.enterOuterAlt(_localctx, 1);
-			{
-			this.state = 57;
-			this.fullname();
-			this.state = 62;
-			this._errHandler.sync(this);
-			_la = this._input.LA(1);
-			while (_la === GITHUBLOGSParser.COMMA) {
-				{
-				{
-				this.state = 58;
-				this.match(GITHUBLOGSParser.COMMA);
-				this.state = 59;
-				this.fullname();
-				}
-				}
-				this.state = 64;
-				this._errHandler.sync(this);
-				_la = this._input.LA(1);
-			}
-			this.state = 65;
-			this.match(GITHUBLOGSParser.AND);
-			this.state = 66;
-			this.fullname();
-			}
-		}
-		catch (re) {
-			if (re instanceof RecognitionException) {
-				_localctx.exception = re;
-				this._errHandler.reportError(this, re);
-				this._errHandler.recover(this, re);
-			} else {
-				throw re;
-			}
-		}
-		finally {
-			this.exitRule();
-		}
-		return _localctx;
-	}
-	// @RuleVersion(0)
-	public emailAddress(): EmailAddressContext {
-		let _localctx: EmailAddressContext = new EmailAddressContext(this._ctx, this.state);
-		this.enterRule(_localctx, 12, GITHUBLOGSParser.RULE_emailAddress);
-		try {
-			this.enterOuterAlt(_localctx, 1);
-			{
-			this.state = 68;
-			this.match(GITHUBLOGSParser.EMAIL_LOCAL_PART);
-			this.state = 69;
-			this.match(GITHUBLOGSParser.AT);
-			this.state = 70;
-			this.match(GITHUBLOGSParser.DOMAIN);
-			}
-		}
-		catch (re) {
-			if (re instanceof RecognitionException) {
-				_localctx.exception = re;
-				this._errHandler.reportError(this, re);
-				this._errHandler.recover(this, re);
-			} else {
-				throw re;
-			}
-		}
-		finally {
-			this.exitRule();
-		}
-		return _localctx;
-	}
-	// @RuleVersion(0)
-	public fullname(): FullnameContext {
-		let _localctx: FullnameContext = new FullnameContext(this._ctx, this.state);
-		this.enterRule(_localctx, 14, GITHUBLOGSParser.RULE_fullname);
-		try {
-			this.enterOuterAlt(_localctx, 1);
-			{
-			this.state = 72;
-			this.match(GITHUBLOGSParser.FULLNAME);
-			}
-		}
-		catch (re) {
-			if (re instanceof RecognitionException) {
-				_localctx.exception = re;
-				this._errHandler.reportError(this, re);
-				this._errHandler.recover(this, re);
-			} else {
-				throw re;
-			}
-		}
-		finally {
-			this.exitRule();
-		}
-		return _localctx;
-	}
-	// @RuleVersion(0)
-	public githubHandle(): GithubHandleContext {
-		let _localctx: GithubHandleContext = new GithubHandleContext(this._ctx, this.state);
-		this.enterRule(_localctx, 16, GITHUBLOGSParser.RULE_githubHandle);
-		try {
-			this.enterOuterAlt(_localctx, 1);
-			{
-			this.state = 74;
-			this.match(GITHUBLOGSParser.HANDLE);
-			}
-		}
-		catch (re) {
-			if (re instanceof RecognitionException) {
-				_localctx.exception = re;
-				this._errHandler.reportError(this, re);
-				this._errHandler.recover(this, re);
-			} else {
-				throw re;
-			}
-		}
-		finally {
-			this.exitRule();
-		}
-		return _localctx;
-	}
-	// @RuleVersion(0)
-	public blankLine(): BlankLineContext {
-		let _localctx: BlankLineContext = new BlankLineContext(this._ctx, this.state);
-		this.enterRule(_localctx, 18, GITHUBLOGSParser.RULE_blankLine);
-		try {
-			this.enterOuterAlt(_localctx, 1);
-			{
-			this.state = 76;
-			this.match(GITHUBLOGSParser.NEWLINE);
+			this.state = 11;
+			this.match(GITHUBLOGSParser.AUTHOR_NAME);
+			this.state = 12;
+			this.match(GITHUBLOGSParser.EMAIL_START);
+			this.state = 13;
+			this.match(GITHUBLOGSParser.EMAIL);
+			this.state = 14;
+			this.match(GITHUBLOGSParser.EMAIL_END);
 			}
 		}
 		catch (re) {
@@ -459,37 +147,15 @@ export class GITHUBLOGSParser extends Parser {
 	}
 
 	public static readonly _serializedATN: string =
-		"\x03\uC91D\uCABA\u058D\uAFBA\u4F53\u0607\uEA8B\uC241\x03\x14Q\x04\x02" +
-		"\t\x02\x04\x03\t\x03\x04\x04\t\x04\x04\x05\t\x05\x04\x06\t\x06\x04\x07" +
-		"\t\x07\x04\b\t\b\x04\t\t\t\x04\n\t\n\x04\v\t\v\x03\x02\x03\x02\x05\x02" +
-		"\x19\n\x02\x06\x02\x1B\n\x02\r\x02\x0E\x02\x1C\x03\x02\x03\x02\x03\x03" +
-		"\x03\x03\x03\x03\x03\x03\x05\x03%\n\x03\x03\x04\x03\x04\x03\x04\x03\x04" +
-		"\x03\x04\x03\x04\x03\x04\x03\x04\x03\x04\x03\x05\x03\x05\x03\x05\x03\x05" +
-		"\x03\x05\x03\x05\x03\x05\x03\x06\x03\x06\x03\x06\x03\x06\x03\x06\x03\x07" +
-		"\x03\x07\x03\x07\x07\x07?\n\x07\f\x07\x0E\x07B\v\x07\x03\x07\x03\x07\x03" +
-		"\x07\x03\b\x03\b\x03\b\x03\b\x03\t\x03\t\x03\n\x03\n\x03\v\x03\v\x03\v" +
-		"\x02\x02\x02\f\x02\x02\x04\x02\x06\x02\b\x02\n\x02\f\x02\x0E\x02\x10\x02" +
-		"\x12\x02\x14\x02\x02\x02\x02L\x02\x1A\x03\x02\x02\x02\x04$\x03\x02\x02" +
-		"\x02\x06&\x03\x02\x02\x02\b/\x03\x02\x02\x02\n6\x03\x02\x02\x02\f;\x03" +
-		"\x02\x02\x02\x0EF\x03\x02\x02\x02\x10J\x03\x02\x02\x02\x12L\x03\x02\x02" +
-		"\x02\x14N\x03\x02\x02\x02\x16\x18\x05\x04\x03\x02\x17\x19\x07\x13\x02" +
-		"\x02\x18\x17\x03\x02\x02\x02\x18\x19\x03\x02\x02\x02\x19\x1B\x03\x02\x02" +
-		"\x02\x1A\x16\x03\x02\x02\x02\x1B\x1C\x03\x02\x02\x02\x1C\x1A\x03\x02\x02" +
-		"\x02\x1C\x1D\x03\x02\x02\x02\x1D\x1E\x03\x02\x02\x02\x1E\x1F\x07\x02\x02" +
-		"\x03\x1F\x03\x03\x02\x02\x02 %\x05\x06\x04\x02!%\x05\b\x05\x02\"%\x05" +
-		"\n\x06\x02#%\x05\x14\v\x02$ \x03\x02\x02\x02$!\x03\x02\x02\x02$\"\x03" +
-		"\x02\x02\x02$#\x03\x02\x02\x02%\x05\x03\x02\x02\x02&\'\x05\x10\t\x02\'" +
-		"(\x07\r\x02\x02()\x07\x07\x02\x02)*\x07\f\x02\x02*+\x05\x12\n\x02+,\x07" +
-		"\v\x02\x02,-\x07\x12\x02\x02-.\x07\x0E\x02\x02.\x07\x03\x02\x02\x02/0" +
-		"\x05\x10\t\x0201\x07\r\x02\x0212\x07\x03\x02\x0223\x07\v\x02\x0234\x07" +
-		"\x05\x02\x0245\x07\x0E\x02\x025\t\x03\x02\x02\x0267\x05\f\x07\x0278\x07" +
-		"\r\x02\x0289\x05\x0E\b\x029:\x07\x0E\x02\x02:\v\x03\x02\x02\x02;@\x05" +
-		"\x10\t\x02<=\x07\t\x02\x02=?\x05\x10\t\x02><\x03\x02\x02\x02?B\x03\x02" +
-		"\x02\x02@>\x03\x02\x02\x02@A\x03\x02\x02\x02AC\x03\x02\x02\x02B@\x03\x02" +
-		"\x02\x02CD\x07\n\x02\x02DE\x05\x10\t\x02E\r\x03\x02\x02\x02FG\x07\x03" +
-		"\x02\x02GH\x07\v\x02\x02HI\x07\x05\x02\x02I\x0F\x03\x02\x02\x02JK\x07" +
-		"\x04\x02\x02K\x11\x03\x02\x02\x02LM\x07\x06\x02\x02M\x13\x03\x02\x02\x02" +
-		"NO\x07\x13\x02\x02O\x15\x03\x02\x02\x02\x06\x18\x1C$@";
+		"\x03\uC91D\uCABA\u058D\uAFBA\u4F53\u0607\uEA8B\uC241\x03\b\x13\x04\x02" +
+		"\t\x02\x04\x03\t\x03\x03\x02\x06\x02\b\n\x02\r\x02\x0E\x02\t\x03\x02\x03" +
+		"\x02\x03\x03\x03\x03\x03\x03\x03\x03\x03\x03\x03\x03\x02\x02\x02\x04\x02" +
+		"\x02\x04\x02\x02\x02\x02\x11\x02\x07\x03\x02\x02\x02\x04\r\x03\x02\x02" +
+		"\x02\x06\b\x05\x04\x03\x02\x07\x06\x03\x02\x02\x02\b\t\x03\x02\x02\x02" +
+		"\t\x07\x03\x02\x02\x02\t\n\x03\x02\x02\x02\n\v\x03\x02\x02\x02\v\f\x07" +
+		"\x02\x02\x03\f\x03\x03\x02\x02\x02\r\x0E\x07\x03\x02\x02\x0E\x0F\x07\x04" +
+		"\x02\x02\x0F\x10\x07\x07\x02\x02\x10\x11\x07\x06\x02\x02\x11\x05\x03\x02" +
+		"\x02\x02\x03\t";
 	public static __ATN: ATN;
 	public static get _ATN(): ATN {
 		if (!GITHUBLOGSParser.__ATN) {
@@ -510,15 +176,6 @@ export class FileContext extends ParserRuleContext {
 			return this.getRuleContexts(EntryContext);
 		} else {
 			return this.getRuleContext(i, EntryContext);
-		}
-	}
-	public NEWLINE(): TerminalNode[];
-	public NEWLINE(i: number): TerminalNode;
-	public NEWLINE(i?: number): TerminalNode | TerminalNode[] {
-		if (i === undefined) {
-			return this.getTokens(GITHUBLOGSParser.NEWLINE);
-		} else {
-			return this.getToken(GITHUBLOGSParser.NEWLINE, i);
 		}
 	}
 	constructor(parent: ParserRuleContext | undefined, invokingState: number) {
@@ -550,18 +207,10 @@ export class FileContext extends ParserRuleContext {
 
 
 export class EntryContext extends ParserRuleContext {
-	public noreplyEntry(): NoreplyEntryContext | undefined {
-		return this.tryGetRuleContext(0, NoreplyEntryContext);
-	}
-	public domainEntry(): DomainEntryContext | undefined {
-		return this.tryGetRuleContext(0, DomainEntryContext);
-	}
-	public pairedEmailEntry(): PairedEmailEntryContext | undefined {
-		return this.tryGetRuleContext(0, PairedEmailEntryContext);
-	}
-	public blankLine(): BlankLineContext | undefined {
-		return this.tryGetRuleContext(0, BlankLineContext);
-	}
+	public AUTHOR_NAME(): TerminalNode { return this.getToken(GITHUBLOGSParser.AUTHOR_NAME, 0); }
+	public EMAIL_START(): TerminalNode { return this.getToken(GITHUBLOGSParser.EMAIL_START, 0); }
+	public EMAIL(): TerminalNode { return this.getToken(GITHUBLOGSParser.EMAIL, 0); }
+	public EMAIL_END(): TerminalNode { return this.getToken(GITHUBLOGSParser.EMAIL_END, 0); }
 	constructor(parent: ParserRuleContext | undefined, invokingState: number) {
 		super(parent, invokingState);
 	}
@@ -583,291 +232,6 @@ export class EntryContext extends ParserRuleContext {
 	public accept<Result>(visitor: GITHUBLOGSParserVisitor<Result>): Result {
 		if (visitor.visitEntry) {
 			return visitor.visitEntry(this);
-		} else {
-			return visitor.visitChildren(this);
-		}
-	}
-}
-
-
-export class NoreplyEntryContext extends ParserRuleContext {
-	public fullname(): FullnameContext {
-		return this.getRuleContext(0, FullnameContext);
-	}
-	public LESS(): TerminalNode { return this.getToken(GITHUBLOGSParser.LESS, 0); }
-	public NUMBER(): TerminalNode { return this.getToken(GITHUBLOGSParser.NUMBER, 0); }
-	public PLUS(): TerminalNode { return this.getToken(GITHUBLOGSParser.PLUS, 0); }
-	public githubHandle(): GithubHandleContext {
-		return this.getRuleContext(0, GithubHandleContext);
-	}
-	public AT(): TerminalNode { return this.getToken(GITHUBLOGSParser.AT, 0); }
-	public NOREPLY_DOMAIN(): TerminalNode { return this.getToken(GITHUBLOGSParser.NOREPLY_DOMAIN, 0); }
-	public GREATER(): TerminalNode { return this.getToken(GITHUBLOGSParser.GREATER, 0); }
-	constructor(parent: ParserRuleContext | undefined, invokingState: number) {
-		super(parent, invokingState);
-	}
-	// @Override
-	public get ruleIndex(): number { return GITHUBLOGSParser.RULE_noreplyEntry; }
-	// @Override
-	public enterRule(listener: GITHUBLOGSParserListener): void {
-		if (listener.enterNoreplyEntry) {
-			listener.enterNoreplyEntry(this);
-		}
-	}
-	// @Override
-	public exitRule(listener: GITHUBLOGSParserListener): void {
-		if (listener.exitNoreplyEntry) {
-			listener.exitNoreplyEntry(this);
-		}
-	}
-	// @Override
-	public accept<Result>(visitor: GITHUBLOGSParserVisitor<Result>): Result {
-		if (visitor.visitNoreplyEntry) {
-			return visitor.visitNoreplyEntry(this);
-		} else {
-			return visitor.visitChildren(this);
-		}
-	}
-}
-
-
-export class DomainEntryContext extends ParserRuleContext {
-	public fullname(): FullnameContext {
-		return this.getRuleContext(0, FullnameContext);
-	}
-	public LESS(): TerminalNode { return this.getToken(GITHUBLOGSParser.LESS, 0); }
-	public EMAIL_LOCAL_PART(): TerminalNode { return this.getToken(GITHUBLOGSParser.EMAIL_LOCAL_PART, 0); }
-	public AT(): TerminalNode { return this.getToken(GITHUBLOGSParser.AT, 0); }
-	public DOMAIN(): TerminalNode { return this.getToken(GITHUBLOGSParser.DOMAIN, 0); }
-	public GREATER(): TerminalNode { return this.getToken(GITHUBLOGSParser.GREATER, 0); }
-	constructor(parent: ParserRuleContext | undefined, invokingState: number) {
-		super(parent, invokingState);
-	}
-	// @Override
-	public get ruleIndex(): number { return GITHUBLOGSParser.RULE_domainEntry; }
-	// @Override
-	public enterRule(listener: GITHUBLOGSParserListener): void {
-		if (listener.enterDomainEntry) {
-			listener.enterDomainEntry(this);
-		}
-	}
-	// @Override
-	public exitRule(listener: GITHUBLOGSParserListener): void {
-		if (listener.exitDomainEntry) {
-			listener.exitDomainEntry(this);
-		}
-	}
-	// @Override
-	public accept<Result>(visitor: GITHUBLOGSParserVisitor<Result>): Result {
-		if (visitor.visitDomainEntry) {
-			return visitor.visitDomainEntry(this);
-		} else {
-			return visitor.visitChildren(this);
-		}
-	}
-}
-
-
-export class PairedEmailEntryContext extends ParserRuleContext {
-	public nameList(): NameListContext {
-		return this.getRuleContext(0, NameListContext);
-	}
-	public LESS(): TerminalNode { return this.getToken(GITHUBLOGSParser.LESS, 0); }
-	public emailAddress(): EmailAddressContext {
-		return this.getRuleContext(0, EmailAddressContext);
-	}
-	public GREATER(): TerminalNode { return this.getToken(GITHUBLOGSParser.GREATER, 0); }
-	constructor(parent: ParserRuleContext | undefined, invokingState: number) {
-		super(parent, invokingState);
-	}
-	// @Override
-	public get ruleIndex(): number { return GITHUBLOGSParser.RULE_pairedEmailEntry; }
-	// @Override
-	public enterRule(listener: GITHUBLOGSParserListener): void {
-		if (listener.enterPairedEmailEntry) {
-			listener.enterPairedEmailEntry(this);
-		}
-	}
-	// @Override
-	public exitRule(listener: GITHUBLOGSParserListener): void {
-		if (listener.exitPairedEmailEntry) {
-			listener.exitPairedEmailEntry(this);
-		}
-	}
-	// @Override
-	public accept<Result>(visitor: GITHUBLOGSParserVisitor<Result>): Result {
-		if (visitor.visitPairedEmailEntry) {
-			return visitor.visitPairedEmailEntry(this);
-		} else {
-			return visitor.visitChildren(this);
-		}
-	}
-}
-
-
-export class NameListContext extends ParserRuleContext {
-	public fullname(): FullnameContext[];
-	public fullname(i: number): FullnameContext;
-	public fullname(i?: number): FullnameContext | FullnameContext[] {
-		if (i === undefined) {
-			return this.getRuleContexts(FullnameContext);
-		} else {
-			return this.getRuleContext(i, FullnameContext);
-		}
-	}
-	public AND(): TerminalNode { return this.getToken(GITHUBLOGSParser.AND, 0); }
-	public COMMA(): TerminalNode[];
-	public COMMA(i: number): TerminalNode;
-	public COMMA(i?: number): TerminalNode | TerminalNode[] {
-		if (i === undefined) {
-			return this.getTokens(GITHUBLOGSParser.COMMA);
-		} else {
-			return this.getToken(GITHUBLOGSParser.COMMA, i);
-		}
-	}
-	constructor(parent: ParserRuleContext | undefined, invokingState: number) {
-		super(parent, invokingState);
-	}
-	// @Override
-	public get ruleIndex(): number { return GITHUBLOGSParser.RULE_nameList; }
-	// @Override
-	public enterRule(listener: GITHUBLOGSParserListener): void {
-		if (listener.enterNameList) {
-			listener.enterNameList(this);
-		}
-	}
-	// @Override
-	public exitRule(listener: GITHUBLOGSParserListener): void {
-		if (listener.exitNameList) {
-			listener.exitNameList(this);
-		}
-	}
-	// @Override
-	public accept<Result>(visitor: GITHUBLOGSParserVisitor<Result>): Result {
-		if (visitor.visitNameList) {
-			return visitor.visitNameList(this);
-		} else {
-			return visitor.visitChildren(this);
-		}
-	}
-}
-
-
-export class EmailAddressContext extends ParserRuleContext {
-	public EMAIL_LOCAL_PART(): TerminalNode { return this.getToken(GITHUBLOGSParser.EMAIL_LOCAL_PART, 0); }
-	public AT(): TerminalNode { return this.getToken(GITHUBLOGSParser.AT, 0); }
-	public DOMAIN(): TerminalNode { return this.getToken(GITHUBLOGSParser.DOMAIN, 0); }
-	constructor(parent: ParserRuleContext | undefined, invokingState: number) {
-		super(parent, invokingState);
-	}
-	// @Override
-	public get ruleIndex(): number { return GITHUBLOGSParser.RULE_emailAddress; }
-	// @Override
-	public enterRule(listener: GITHUBLOGSParserListener): void {
-		if (listener.enterEmailAddress) {
-			listener.enterEmailAddress(this);
-		}
-	}
-	// @Override
-	public exitRule(listener: GITHUBLOGSParserListener): void {
-		if (listener.exitEmailAddress) {
-			listener.exitEmailAddress(this);
-		}
-	}
-	// @Override
-	public accept<Result>(visitor: GITHUBLOGSParserVisitor<Result>): Result {
-		if (visitor.visitEmailAddress) {
-			return visitor.visitEmailAddress(this);
-		} else {
-			return visitor.visitChildren(this);
-		}
-	}
-}
-
-
-export class FullnameContext extends ParserRuleContext {
-	public FULLNAME(): TerminalNode { return this.getToken(GITHUBLOGSParser.FULLNAME, 0); }
-	constructor(parent: ParserRuleContext | undefined, invokingState: number) {
-		super(parent, invokingState);
-	}
-	// @Override
-	public get ruleIndex(): number { return GITHUBLOGSParser.RULE_fullname; }
-	// @Override
-	public enterRule(listener: GITHUBLOGSParserListener): void {
-		if (listener.enterFullname) {
-			listener.enterFullname(this);
-		}
-	}
-	// @Override
-	public exitRule(listener: GITHUBLOGSParserListener): void {
-		if (listener.exitFullname) {
-			listener.exitFullname(this);
-		}
-	}
-	// @Override
-	public accept<Result>(visitor: GITHUBLOGSParserVisitor<Result>): Result {
-		if (visitor.visitFullname) {
-			return visitor.visitFullname(this);
-		} else {
-			return visitor.visitChildren(this);
-		}
-	}
-}
-
-
-export class GithubHandleContext extends ParserRuleContext {
-	public HANDLE(): TerminalNode { return this.getToken(GITHUBLOGSParser.HANDLE, 0); }
-	constructor(parent: ParserRuleContext | undefined, invokingState: number) {
-		super(parent, invokingState);
-	}
-	// @Override
-	public get ruleIndex(): number { return GITHUBLOGSParser.RULE_githubHandle; }
-	// @Override
-	public enterRule(listener: GITHUBLOGSParserListener): void {
-		if (listener.enterGithubHandle) {
-			listener.enterGithubHandle(this);
-		}
-	}
-	// @Override
-	public exitRule(listener: GITHUBLOGSParserListener): void {
-		if (listener.exitGithubHandle) {
-			listener.exitGithubHandle(this);
-		}
-	}
-	// @Override
-	public accept<Result>(visitor: GITHUBLOGSParserVisitor<Result>): Result {
-		if (visitor.visitGithubHandle) {
-			return visitor.visitGithubHandle(this);
-		} else {
-			return visitor.visitChildren(this);
-		}
-	}
-}
-
-
-export class BlankLineContext extends ParserRuleContext {
-	public NEWLINE(): TerminalNode { return this.getToken(GITHUBLOGSParser.NEWLINE, 0); }
-	constructor(parent: ParserRuleContext | undefined, invokingState: number) {
-		super(parent, invokingState);
-	}
-	// @Override
-	public get ruleIndex(): number { return GITHUBLOGSParser.RULE_blankLine; }
-	// @Override
-	public enterRule(listener: GITHUBLOGSParserListener): void {
-		if (listener.enterBlankLine) {
-			listener.enterBlankLine(this);
-		}
-	}
-	// @Override
-	public exitRule(listener: GITHUBLOGSParserListener): void {
-		if (listener.exitBlankLine) {
-			listener.exitBlankLine(this);
-		}
-	}
-	// @Override
-	public accept<Result>(visitor: GITHUBLOGSParserVisitor<Result>): Result {
-		if (visitor.visitBlankLine) {
-			return visitor.visitBlankLine(this);
 		} else {
 			return visitor.visitChildren(this);
 		}
