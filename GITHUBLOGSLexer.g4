@@ -1,6 +1,6 @@
 lexer grammar GITHUBLOGSLexer;
 
-AUTHOR_NAME  : [-'A-Za-z0-9\u0080-\u00FF\u0100-\u017F\u0180-\u024F\u1E00-\u1EFF ]+ ;
+AUTHOR_NAME  : [A-Za-z0-9\u0080-\u00FF -]+ ;
 COMMA          : ',' ;
 AND            : 'and' ;
 EMAIL_START    : '<' -> pushMode(EMAIL_MODE) ;
