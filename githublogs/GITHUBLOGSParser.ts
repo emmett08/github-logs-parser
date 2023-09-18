@@ -34,7 +34,7 @@ export class GITHUBLOGSParser extends Parser {
 	public static readonly EMAIL_START = 4;
 	public static readonly LPAREN = 5;
 	public static readonly NEWLINE = 6;
-	public static readonly PAREN_END = 7;
+	public static readonly RPAREN = 7;
 	public static readonly EXT = 8;
 	public static readonly EMAIL_END = 9;
 	public static readonly EMAIL = 10;
@@ -56,7 +56,7 @@ export class GITHUBLOGSParser extends Parser {
 	];
 	private static readonly _SYMBOLIC_NAMES: Array<string | undefined> = [
 		undefined, "AUTHOR_NAME", "COMMA", "AND", "EMAIL_START", "LPAREN", "NEWLINE", 
-		"PAREN_END", "EXT", "EMAIL_END", "EMAIL", "WS",
+		"RPAREN", "EXT", "EMAIL_END", "EMAIL", "WS",
 	];
 	public static readonly VOCABULARY: Vocabulary = new VocabularyImpl(GITHUBLOGSParser._LITERAL_NAMES, GITHUBLOGSParser._SYMBOLIC_NAMES, []);
 
@@ -257,7 +257,7 @@ export class GITHUBLOGSParser extends Parser {
 			this.state = 41;
 			this.match(GITHUBLOGSParser.EXT);
 			this.state = 42;
-			this.match(GITHUBLOGSParser.PAREN_END);
+			this.match(GITHUBLOGSParser.RPAREN);
 			}
 		}
 		catch (re) {
@@ -493,7 +493,7 @@ export class UserContext extends ParserRuleContext {
 export class ExtContext extends ParserRuleContext {
 	public LPAREN(): TerminalNode { return this.getToken(GITHUBLOGSParser.LPAREN, 0); }
 	public EXT(): TerminalNode { return this.getToken(GITHUBLOGSParser.EXT, 0); }
-	public PAREN_END(): TerminalNode { return this.getToken(GITHUBLOGSParser.PAREN_END, 0); }
+	public RPAREN(): TerminalNode { return this.getToken(GITHUBLOGSParser.RPAREN, 0); }
 	constructor(parent: ParserRuleContext | undefined, invokingState: number) {
 		super(parent, invokingState);
 	}

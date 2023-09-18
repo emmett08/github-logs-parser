@@ -22,7 +22,7 @@ export class GITHUBLOGSLexer extends Lexer {
 	public static readonly EMAIL_START = 4;
 	public static readonly LPAREN = 5;
 	public static readonly NEWLINE = 6;
-	public static readonly PAREN_END = 7;
+	public static readonly RPAREN = 7;
 	public static readonly EXT = 8;
 	public static readonly EMAIL_END = 9;
 	public static readonly EMAIL = 10;
@@ -41,7 +41,7 @@ export class GITHUBLOGSLexer extends Lexer {
 	];
 
 	public static readonly ruleNames: string[] = [
-		"AUTHOR_NAME", "COMMA", "AND", "EMAIL_START", "LPAREN", "NEWLINE", "PAREN_END", 
+		"AUTHOR_NAME", "COMMA", "AND", "EMAIL_START", "LPAREN", "NEWLINE", "RPAREN", 
 		"EXT", "EMAIL_END", "EMAIL", "WS",
 	];
 
@@ -51,7 +51,7 @@ export class GITHUBLOGSLexer extends Lexer {
 	];
 	private static readonly _SYMBOLIC_NAMES: Array<string | undefined> = [
 		undefined, "AUTHOR_NAME", "COMMA", "AND", "EMAIL_START", "LPAREN", "NEWLINE", 
-		"PAREN_END", "EXT", "EMAIL_END", "EMAIL", "WS",
+		"RPAREN", "EXT", "EMAIL_END", "EMAIL", "WS",
 	];
 	public static readonly VOCABULARY: Vocabulary = new VocabularyImpl(GITHUBLOGSLexer._LITERAL_NAMES, GITHUBLOGSLexer._SYMBOLIC_NAMES, []);
 
