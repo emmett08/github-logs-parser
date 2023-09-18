@@ -6,5 +6,5 @@ file    : entry+ EOF ;
 entry   : user_list EMAIL_START email EMAIL_END ;
 user_list : user (COMMA user)* (AND user)? ;
 user    : AUTHOR_NAME ext? ;
-ext     : LPAREN EXT PAREN_END ;
+ext     : LPAREN EXT RPAREN ;
 email   : EMAIL ;

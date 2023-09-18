@@ -8,7 +8,7 @@ LPAREN         : '(' -> pushMode(PAREN_MODE) ;
 NEWLINE        : [\n] -> skip ;
 
 mode PAREN_MODE;
-PAREN_END      : ') ' -> popMode ;
+RPAREN		   : ') ' -> popMode ;
 EXT            : [a-zA-Z0-9/]+ ;
 
 mode EMAIL_MODE;
