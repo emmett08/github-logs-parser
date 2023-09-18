@@ -1,6 +1,6 @@
 # github-logs-parser
 
-Antlr4 generated parser for parsing GitHub logs produced using `git log --pretty="%aN <%aE>" | sort | uniq`.
+Antlr4 generated parser for parsing GitHub logs produced using `git log --pretty="<%aN <%aE>" | sort | uniq`.
 
 ## Description
 
